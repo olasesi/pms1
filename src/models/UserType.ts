@@ -19,10 +19,11 @@ const UserType = mongoose.model<IUserType>("UserType", UserTypeSchema);
 
 const seedUserType = async (): Promise<void> => {
   const defaultUserType = [
-    { name: "Admin" },
-    { name: "HRAmdin" },
+    { name: "Super Admin" },
+    { name: "Admin P&C" },
+    { name: "Admin Strategy" },
+    { name: "Line Manager" },
     { name: "Staff" },
-    { name: "Customer" },
   ];
 
   for (const userType of defaultUserType) {

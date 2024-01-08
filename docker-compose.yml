@@ -1,6 +1,6 @@
 version: "3"
 services:
-  node-booking-app:
+  perfomance-management-system:
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,3 +10,4 @@ services:
       - .:/app
     environment:
       - NODE_ENV=development
+      - MONGO_URI=mongodb+srv://olusesia:RUybhJuAdw7hLUQE@cluster0.pp5axps.mongodb.net/
