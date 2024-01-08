@@ -1,15 +1,19 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "outDir": "./dist",
-      "rootDir": "./src",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
-  }
-  
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "types": [
+    "node", // Include types for Node.js
+    "express", // Include types for Express.js
+    "cors" // Include types for cors
+  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

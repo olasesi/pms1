@@ -1,3 +1,4 @@
+// models/Setting.ts
 import mongoose, { Document } from "mongoose";
 
 interface ISetting extends Document {
@@ -22,22 +23,44 @@ const SettingSchema = new mongoose.Schema(
 
 const Setting = mongoose.model<ISetting>("Setting", SettingSchema);
 
-const seedSettings = async (): Promise<void> => {
-  const defaultSettings = [
-    { name: "socialLogin", value: false },
-    { name: "recaptcha", value: false },
-    { name: "twoFactorAuthentication", value: false },
-    { name: "accountLocking", value: false },
-    { name: "customSecurityQuestions", value: false },
-    { name: "ipBlacklisting", value: true },
-  ];
+// Function to check if social login is allowed
+const isSocialLoginAllowed = async (): Promise<boolean> => {
+  try {
+    // Check if the "socialLogin" setting exists
+    let setting = await Setting.findOne({ name: "socialLogin" });
 
-  for (const setting of defaultSettings) {
-    await Setting.findOneAndUpdate({ name: setting.name }, setting, {
-      upsert: true,
-      new: true,
-    });
+    // If the setting doesn't exist, seed it with the default value
+    if (!setting) {
+      setting = await Setting.create({ name: "socialLogin", value: false });
+    }
+
+    // Return the value of the "socialLogin" setting
+    return !!setting.value;
+  } catch (error) {
+    console.error("Error checking social login status:", error);
+    return false;
   }
 };
 
-export { Setting, seedSettings };
+const isRecaptchaEnabled = async (): Promise<boolean> => {
+  try {
+    // Check if the "recaptcha" setting exists
+    let setting = await Setting.findOne({ name: "recaptcha" });
+
+    // If the setting doesn't exist, seed it with the default value
+    if (!setting) {
+      setting = await Setting.create({ name: "recaptcha", value: false });
+    }
+
+    // Return the value of the "recaptcha" setting
+    return !!setting.value;
+  } catch (error) {
+    console.error("Error checking reCAPTCHA status:", error);
+    return false;
+  }
+};
+
+export { Setting, isSocialLoginAllowed, isRecaptchaEnabled };
+
+// { name: "twoFactorAuthentication", value: false },
+// { name: "customSecurityQuestions", value: false },

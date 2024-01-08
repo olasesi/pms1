@@ -1,7 +1,28 @@
-import mongoose from "mongoose";
+import { Document, Schema, model, Types } from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+ interface UserModel {
+  active: Boolean;
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  isConfirmed: boolean;
+  verificationCode: string | null;
+  userType: Types.ObjectId;
+  isLocked: boolean;
+}
+
+export interface UserDocument extends UserModel, Document {
+  _id: string;
+}
+
+const UserSchema = new Schema<UserDocument>(
   {
+    active: {
+      type: Boolean,
+      default: true,
+    },
+
     firstname: {
       type: String,
       required: [true, "Please provide your first name"],
@@ -19,12 +40,23 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isConfirmed: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: Schema.Types.Mixed,
+    },
     userType: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserType',
-      },
+      type: Types.ObjectId as any, // Use 'as any' to bypass TypeScript check
+      ref: "UserType",
+    },
+    isLocked:{
+      type:Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
 );
 
-export default mongoose.model("User", UserSchema);
+export default model<UserDocument>("User", UserSchema);
